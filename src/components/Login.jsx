@@ -15,21 +15,14 @@ function Login({ onLogin }) {
         setError('');
 
         try {
-            // Direct Supabase authentication
             const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({
-                email,
-                password
+                email, password
             });
-
             if (signInError) throw signInError;
 
-            // Fetch admin profile from backend
             const response = await fetch(`${API_URL}/api/admin/profile`, {
-                headers: {
-                    'Authorization': `Bearer ${authData.session.access_token}`
-                }
+                headers: { 'Authorization': `Bearer ${authData.session.access_token}` }
             });
-
             const data = await response.json();
 
             if (!data.success) {

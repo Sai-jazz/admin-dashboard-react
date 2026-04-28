@@ -1,14 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from './services/supabase';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import './index.css';
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
     const [session, setSession] = useState(null);
     const [adminData, setAdminData] = useState(null);
     const [apartment, setApartment] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const fetchAdminProfile = useCallback(async (token) => {
+        try {
+            const response = await fetch(`${API_URL}/api/admin/profile`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (data.success) {
+                setAdminData(data.admin);
+                setApartment(data.apartment);
+            }
+        } catch (err) { 
+            console.error('Error fetching admin profile:', err); 
+        } finally { 
+            setLoading(false); 
+        }
+    }, []);
 
     useEffect(() => {
         const checkSession = async () => {
@@ -33,22 +52,9 @@ function App() {
                 setLoading(false);
             }
         });
+        
         return () => subscription.unsubscribe();
-    }, []);
-
-    const fetchAdminProfile = async (token) => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/profile`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            if (data.success) {
-                setAdminData(data.admin);
-                setApartment(data.apartment);
-            }
-        } catch (err) { console.error(err); }
-        finally { setLoading(false); }
-    };
+    }, [fetchAdminProfile]);
 
     const handleLogin = (userData) => {
         setSession(userData.session);
@@ -64,7 +70,12 @@ function App() {
     };
 
     if (loading) {
-        return <div className="loading-container"><div className="spinner"></div><p>Loading...</p></div>;
+        return (
+            <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        );
     }
 
     if (!session) {
