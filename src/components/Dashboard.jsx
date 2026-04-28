@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { getAccessToken } from '../services/supabase';
 
@@ -8,7 +8,8 @@ function Dashboard({ admin, apartment, onLogout }) {
     const [stats, setStats] = useState({ totalResidents: 0, visitorsInside: 0, vehiclesInside: 0, totalVehicles: 0, activeGuards: 0 });
     const [loading, setLoading] = useState(true);
 
-    const fetchStats = async () => {
+    // ✅ Wrap fetchStats in useCallback to prevent recreation
+    const fetchStats = useCallback(async () => {
         if (!apartment) return;
         const token = await getAccessToken();
         try {
@@ -16,11 +17,17 @@ function Dashboard({ admin, apartment, onLogout }) {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.data.success) setStats(response.data.stats);
-        } catch (err) { console.error(err); }
-        finally { setLoading(false); }
-    };
+        } catch (err) { 
+            console.error(err); 
+        } finally { 
+            setLoading(false); 
+        }
+    }, [apartment, API_URL]);
 
-    useEffect(() => { fetchStats(); }, [apartment]);
+    // ✅ Add fetchStats to dependency array
+    useEffect(() => { 
+        fetchStats(); 
+    }, [fetchStats]);
 
     if (loading) return <div className="loading-text">Loading dashboard...</div>;
 
