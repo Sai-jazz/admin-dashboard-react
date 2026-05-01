@@ -42,7 +42,8 @@ function ResidentsTable({ apartmentId }) {
     };
 
     const deleteResident = async (residentId) => {
-        if (!confirm('Delete this resident?')) return;
+    // ✅ Fix: Use window.confirm instead of confirm
+    if (window.confirm('Delete this resident?')) {
         const token = await getAccessToken();
         try {
             await axios.delete(`${API_URL}/api/admin/${apartmentId}/residents/${residentId}`, {
@@ -52,7 +53,8 @@ function ResidentsTable({ apartmentId }) {
         } catch (err) {
             alert('Failed to delete resident');
         }
-    };
+    }
+};
 
     const generateQR = async (residentId) => {
         const token = await getAccessToken();

@@ -35,12 +35,12 @@ function AnalyticsCharts({ apartmentId }) {
 
     const trendData = {
         labels: Object.keys(trends),
-        datasets: [{ label: 'Entries', data: Object.values(trends), borderColor: '#667eea', backgroundColor: 'rgba(102,126,234,0.1)', tension: 0.4, fill: true }]
+        datasets: [{ label: 'Entries', data: Object.values(trends), borderColor: '#00ff88', backgroundColor: 'rgba(0,255,136,0.1)', tension: 0.4, fill: true }]
     };
 
     const methodData = {
         labels: ['QR Code', 'Vehicle Number', 'Visitor Form', 'Manual'],
-        datasets: [{ data: [methods.qr || 0, methods.vehicle || 0, methods.visitor_form || 0, methods.manual || 0], backgroundColor: ['#28a745', '#17a2b8', '#ffc107', '#6c757d'] }]
+        datasets: [{ data: [methods.qr || 0, methods.vehicle || 0, methods.visitor_form || 0, methods.manual || 0], backgroundColor: ['#00ff88', '#1e3c72', '#ffc107', '#6c757d'] }]
     };
 
     if (loading) return <div className="loading-text">Loading charts...</div>;

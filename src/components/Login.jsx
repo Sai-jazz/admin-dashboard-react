@@ -51,25 +51,9 @@ function Login({ onLogin }) {
                 <p>Access your apartment's dashboard</p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="login-input"
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="login-input"
-                        required
-                    />
-                    <button type="submit" className="login-btn" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login →'}
-                    </button>
+                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="login-input" required />
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="login-input" required />
+                    <button type="submit" className="login-btn" disabled={loading}>{loading ? 'Logging in...' : 'Login →'}</button>
                 </form>
             </div>
         </div>

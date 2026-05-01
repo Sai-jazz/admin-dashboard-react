@@ -5,7 +5,9 @@ function Sidebar({ activeTab, setActiveTab, apartment, admin, onLogout }) {
         { id: 'overview', icon: '📊', label: 'Overview' },
         { id: 'guards', icon: '👮', label: 'Guards' },
         { id: 'residents', icon: '🏠', label: 'Residents' },
-        { id: 'logs', icon: '📋', label: 'Activity Logs' }
+        { id: 'regular', icon: '⭐', label: 'Regular Visitors' },
+        { id: 'logs', icon: '📋', label: 'Activity Logs' },
+        { id: 'analytics', icon: '📈', label: 'Analytics' }
     ];
 
     return (

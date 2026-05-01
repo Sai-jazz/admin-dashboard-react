@@ -40,7 +40,8 @@ function GuardsTable({ apartmentId }) {
     };
 
     const deleteGuard = async (guardId) => {
-        if (!confirm('Remove this guard?')) return;
+    // ✅ Fix: Use window.confirm instead of confirm
+    if (window.confirm('Remove this guard?')) {
         const token = await getAccessToken();
         try {
             await axios.delete(`${API_URL}/api/admin/${apartmentId}/guards/${guardId}`, {
@@ -50,7 +51,8 @@ function GuardsTable({ apartmentId }) {
         } catch (err) {
             alert('Failed to delete guard');
         }
-    };
+    }
+};
 
     useEffect(() => {
         if (apartmentId) fetchGuards();
